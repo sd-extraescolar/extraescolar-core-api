@@ -9,7 +9,22 @@ export class Evento {
   @Column({ type: 'uuid' })
   fk_cohorte_id: string;
 
-  @Column({ type: 'date' })
+  @Column({ 
+    type: 'datetime',
+    transformer: {
+      to: (value: any) => {
+        if (!value) return null;
+        if (value instanceof Date) {
+          return value.toISOString().slice(0, 19).replace('T', ' ');
+        }
+        if (typeof value === 'string') {
+          return new Date(value).toISOString().slice(0, 19).replace('T', ' ');
+        }
+        return value;
+      },
+      from: (value: string) => value ? new Date(value) : null
+    }
+  })
   fecha: Date;
 
   @Column({ type: 'json' })

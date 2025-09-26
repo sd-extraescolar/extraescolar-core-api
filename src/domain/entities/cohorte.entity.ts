@@ -1,10 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import { Entity, PrimaryColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
 import { Evento } from './evento.entity';
 import { Alumno } from './alumno.entity';
 
 @Entity('cohortes')
 export class Cohorte {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn({ type: 'varchar', length: 255 })
   id: string;
 
   @Column({ type: 'int' })
@@ -32,11 +32,13 @@ export class Cohorte {
   alumnos_entities: Alumno[];
 
   constructor(
+    id: string,
     presencialidad_total: number,
     cantidad_clases_total: number,
     profesores: string[] = [],
     alumnos: string[] = [],
   ) {
+    this.id = id;
     this.presencialidad_total = presencialidad_total;
     this.cantidad_clases_total = cantidad_clases_total;
     this.profesores = profesores;
